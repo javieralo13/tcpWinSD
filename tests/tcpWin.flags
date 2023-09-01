@@ -1,0 +1,15 @@
+# Flags to toggle
+#
+# Run the ../../../tests/test.sh script from the plugin main directory:
+#
+# cd $T2HOME/plugins/tcpWin
+# ../../tests/test.sh [OPTION...]
+#
+# If run from this folder, make sure to use absolute path for the '-p' option.
+#
+# Flag name     File
+
+# src/tcpWin.h
+TCPWIN_THRES      src/tcpWin.h
+TCPWIN_MINPKTS    src/tcpWin.h
+TCPWIN_MAXWSCNT   src/tcpWin.h
