@@ -108,6 +108,7 @@ void onFlowTerminate(unsigned long flowIndex) {
                 gwz.wzCnt[i] = f;                       // update relative count
                 if (i == wzi) {				// new one?
                     gwz.wzip[i] = flowP->srcIP;         // save new IP
+					gwz.wzdstip[i] = flowP->dstIP;      // save destination IP
                     gwz.wzi++;                          // increment global window size counter
                 }
             }	
@@ -129,6 +130,7 @@ void onApplicationTerminate() {
     FILE *fp;
     int i;
     char srcIP[INET6_ADDRSTRLEN];
+	char dstIP[INET6_ADDRSTRLEN];
 
     fp = t2_open_file(baseFileName, TCPWIN_FNSUP, "w");
     if (UNLIKELY(!fp)) { // if file cannot be opened print warning and return;
@@ -136,11 +138,12 @@ void onApplicationTerminate() {
         return;
     }
 
-    fprintf(fp, "# IP\tpktTcpCnt\twinRelThCnt\n"); // print header
+    fprintf(fp, "# IP\tdstIP\tpktTcpCnt\twinRelThCnt\n"); // print header
 
     for (i = 0; i < gwz.wzi; i++) {
         T2_IP_TO_STR(gwz.wzip[i], 4, srcIP, INET6_ADDRSTRLEN);                  // transfer IP to string
-        fprintf(fp, "%s\t%"PRIu32"\t%f\n", srcIP, gwz.tcpCnt[i], gwz.wzCnt[i]); // print in file
+		T2_IP_TO_STR(gwz.wzdstip[i], 4, dstIP, INET6_ADDRSTRLEN);                  // transfer IP to string
+        fprintf(fp, "%s\%s\t%"PRIu32"\t%f\n", srcIP,dstIP, gwz.tcpCnt[i], gwz.wzCnt[i]); // print in file
     }
 
     fclose(fp);
