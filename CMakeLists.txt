@@ -25,6 +25,7 @@ target_include_directories(${_plugin_name}
     PRIVATE
         ../../utils
         ../../tranalyzer2/src
+	../../basicStats/src
 )
 
 target_compile_options(${_plugin_name}

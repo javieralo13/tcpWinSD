@@ -46,8 +46,8 @@ typedef struct { // always large variables first to limit memory fragmentation
 } tcpWinFlow_t;
 
 typedef struct {                      // <-- Global win size structure
-    ipAddr_t wzip[TCPWIN_MAXWSCNT];   // <-- IP Address array
-	ipAddr_t wzdstip[TCPWIN_MAXWSCNT]; 
+    ip4Addr_t wzip[TCPWIN_MAXWSCNT];   // <-- IP Address array
+	ip4Addr_t wzdstip[TCPWIN_MAXWSCNT]; 
     uint32_t tcpCnt[TCPWIN_MAXWSCNT]; // <-- window size count
     float wzCnt[TCPWIN_MAXWSCNT];     // <-- relative window size count
     int wzi;                          // <-- window size index

@@ -22,6 +22,7 @@ endif
 inc = include_directories(
     join_paths('..', '..', 'utils'),
     join_paths('..', '..', 'tranalyzer2', 'src'),
+	join_paths('..', 'basicStats', 'src'), # <--
 )
 
 src = [

@@ -17,7 +17,12 @@
  */
 
 #include "tcpWinSD.h"
+#include "basicStats.h"  // <--
 
+T2_PLUGIN_INIT_WITH_DEPS("tcpWinD", "0.8.11", 0, 8, "basicStats"); // <--
+
+
+extern bSFlow_t *bSFlow __attribute__((weak)); // <--
 
 /*
  * Plugin variables that may be used by other plugins (MUST be declared in
@@ -41,7 +46,7 @@ gwz_t *gwzP = &gwz; // <-- Pointer for later dependency experiments
  * This describes the plugin name, version, major and minor version of
  * Tranalyzer required and dependencies
  */
-T2_PLUGIN_INIT("tcpWinSD", "0.8.10", 0, 8);
+//T2_PLUGIN_INIT("tcpWinSD", "0.8.10", 0, 8); i add PLUGIN with dependencies 
 
 
 /*
@@ -93,9 +98,14 @@ void claimLayer4Information(packet_t *packet, unsigned long flowIndex) {
 void onFlowTerminate(unsigned long flowIndex) {
     const flow_t * const flowP = &flows[flowIndex]; //
     tcpWinFlow_t * const tcpWinFlowP = &tcpWinFlows[flowIndex];
+	bSFlow_t * const bSFlowP = &bSFlow[flowIndex]; // <--
 
+	//tcpWinFlowP->pktTcpCnt == bSFlowP->numTPkts
     const float f = (float)tcpWinFlowP->winThCnt/(float)tcpWinFlowP->pktTcpCnt; // factor
-
+	
+	//if (bSFlowP->numTPkts) f = (float)tcpWinFlowP->winThCnt/(float)bSFlowP->numTPkts; // <--
+	
+	
     if (tcpWinFlowP->winThCnt && tcpWinFlowP->pktTcpCnt >= TCPWIN_MINPKTS) { //
         const int wzi = gwz.wzi; // store element count in const local variable, makes the compiler happy
 
@@ -104,7 +114,7 @@ void onFlowTerminate(unsigned long flowIndex) {
             for (i = 0; i < wzi; i++) if (gwz.wzip[i].IPv4.s_addr == flowP->srcIP.IPv4.s_addr) break; // does IP exist?
 
             if (f > gwz.wzCnt[i]) {                     // only update if count is greater than the previous one
-                gwz.tcpCnt[i] = tcpWinFlowP->pktTcpCnt; // update tcp packet count
+                gwz.tcpCnt[i] = bSFlowP->numTPkts; // update tcp packet count
                 gwz.wzCnt[i] = f;                       // update relative count
                 if (i == wzi) {				// new one?
                     gwz.wzip[i] = flowP->srcIP;         // save new IP
