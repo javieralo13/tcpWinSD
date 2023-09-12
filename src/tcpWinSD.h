@@ -28,8 +28,8 @@
 /* ------------------------ USER CONFIGURATION FLAGS ------------------------ */
 /* ========================================================================== */
 #define TCPWIN_THRES    1           // tcp Window threshold for packet counts
-#define TCPWIN_MINPKTS  30          // <-- Summary file: minimal tcp packets seen to start saving process
-#define TCPWIN_MAXWSCNT 100         // <-- Summary file: maximal number of window size threshold count array elements
+#define TCPWIN_MINPKTS  30          // <-- Summary file: minimal tcp packets seen to start saving process 30 default
+#define TCPWIN_MAXWSCNT 100         // <-- Summary file: maximal number of window size threshold count array elements 100 default
 #define TCPWIN_FNSUP "_tcpwin.txt"  // <-- Summary file: file name supplement
 /* ========================================================================== */
 /* ------------------------- DO NOT EDIT BELOW HERE ------------------------- */

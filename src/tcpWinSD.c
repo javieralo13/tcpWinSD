@@ -153,7 +153,7 @@ void onApplicationTerminate() {
     for (i = 0; i < gwz.wzi; i++) {
         T2_IP_TO_STR(gwz.wzip[i], 4, srcIP, INET6_ADDRSTRLEN);                  // transfer IP to string
 		T2_IP_TO_STR(gwz.wzdstip[i], 4, dstIP, INET6_ADDRSTRLEN);                  // transfer IP to string
-        fprintf(fp, "%s\%s\t%"PRIu32"\t%f\n", srcIP,dstIP, gwz.tcpCnt[i], gwz.wzCnt[i]); // print in file
+        fprintf(fp, "%s\t%s\t%"PRIu32"\t%f\n", srcIP,dstIP, gwz.tcpCnt[i], gwz.wzCnt[i]); // print in file
     }
 
     fclose(fp);
